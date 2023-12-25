@@ -5,10 +5,10 @@ import kotlinx.serialization.Serializable
 const val ROWS = 5
 const val COLS = 10
 
-
+@Serializable
 class CinemaHall {
     var availableSeatsNum: Int = ROWS * COLS
-    private val seatsInHall = Array(ROWS) { row ->
+    val seatsInHall = Array(ROWS) { row ->
         Array(COLS) { col ->
             SeatEntity(row, col, 0)
         }
@@ -22,7 +22,7 @@ class CinemaHall {
         seatsInHall[rowNumber - 1][seatNumber - 1].seatState = 0
     }
 
-    fun takeSeat(rowNumber: Int, seatNumber: Int){
+    fun takeSeat(rowNumber: Int, seatNumber: Int) {
         seatsInHall[rowNumber - 1][seatNumber - 1].seatState = 2
     }
 

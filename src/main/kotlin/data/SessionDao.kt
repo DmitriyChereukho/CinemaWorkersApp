@@ -7,13 +7,15 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
+import kotlinx.datetime.LocalDateTime
 
 interface SessionDao {
-    fun add(filmEntity: FilmEntity, time: Int)
+    fun add(filmEntity: FilmEntity, time: LocalDateTime)
     fun remove(sessionId: Int)
     fun getAll(): List<SessionEntity>
     fun get(id: Int): SessionEntity?
     fun getSize(): Int
+    fun containsValue(id: Int): Boolean
 }
 
 class RuntimeSessionDao : SessionDao {
@@ -28,7 +30,7 @@ class RuntimeSessionDao : SessionDao {
         0
     }
 
-    override fun add(filmEntity: FilmEntity, time: Int) {
+    override fun add(filmEntity: FilmEntity, time: LocalDateTime) {
         sessions[counter] = SessionEntity(filmEntity, time, CinemaHall(), counter)
         counter++
 
@@ -53,8 +55,17 @@ class RuntimeSessionDao : SessionDao {
         return sessions.size
     }
 
+    override fun containsValue(id: Int): Boolean {
+        sessions.forEach { (_, value) ->
+            if (value.id == id) {
+                return true
+            }
+        }
+        return false
+    }
+
     private fun updateJson() {
-        val file = File("src/main/resources/filmsJson.json")
+        val file = File("src/main/resources/sessionsJson.json")
         file.writeText(Json.encodeToString(sessions))
     }
 

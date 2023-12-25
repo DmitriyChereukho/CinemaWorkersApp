@@ -1,79 +1,21 @@
 package domain
 
-import data.FilmDao
-import data.SessionDao
-import domain.entity.SessionEntity
+import kotlinx.datetime.LocalDateTime
 
 interface SessionController {
-    fun addSession(filmId: Int, time: Int)
+    fun addSession(filmId: Int, time: LocalDateTime): String
 
-    fun removeSession(sessionId: Int)
+    fun removeSession(sessionId: Int): String
 
-    fun sellTicket(sessionId: Int, rowNumber: Int, seatNumber: Int)
+    fun sellTicket(sessionId: Int, rowNumber: Int, seatNumber: Int): String
 
-    fun returnTicket(sessionId: Int, rowNumber: Int, seatNumber: Int)
+    fun returnTicket(sessionId: Int, rowNumber: Int, seatNumber: Int): String
 
-    fun takeSeat(sessionId: Int, rowNumber: Int, seatNumber: Int)
+    fun takeSeat(sessionId: Int, rowNumber: Int, seatNumber: Int): String
 
     fun getCinemaHallInfo(sessionId: Int): String
 
     fun getAllToString(): String
 
     fun getSessionCount(): Int
-}
-
-class SessionControllerImpl(private val sessionDao: SessionDao, private val filmDao: FilmDao) : SessionController {
-
-    override fun addSession(filmId: Int, time: Int) {
-        val film = filmDao.get(filmId)
-        if (film != null) {
-            sessionDao.add(film, time)
-        }
-    }
-
-    override fun removeSession(sessionId: Int) {
-        sessionDao.remove(sessionId)
-    }
-
-    override fun sellTicket(sessionId: Int, rowNumber: Int, seatNumber: Int) {
-        val session = sessionDao.get(sessionId)
-        if (session != null) {
-            if (session.cinemaHall.availableSeatsNum > 0) {
-                session.cinemaHall.availableSeatsNum--
-                session.cinemaHall.sellSeat(rowNumber, seatNumber)
-            }
-        }
-    }
-
-    override fun returnTicket(sessionId: Int, rowNumber: Int, seatNumber: Int) {
-        val session = sessionDao.get(sessionId)
-        if (session != null) {
-            if (session.cinemaHall.availableSeatsNum > 0) {
-                session.cinemaHall.availableSeatsNum--
-                session.cinemaHall.releaseSeat(rowNumber, seatNumber)
-            }
-        }
-    }
-
-    override fun takeSeat(sessionId: Int, rowNumber: Int, seatNumber: Int) {
-        val session = sessionDao.get(sessionId)
-        session?.cinemaHall?.takeSeat(rowNumber, seatNumber)
-    }
-
-    override fun getCinemaHallInfo(sessionId: Int): String {
-        return sessionDao.get(sessionId)?.cinemaHall.toString()
-    }
-
-    private fun getAllSessions(): List<SessionEntity> {
-        return sessionDao.getAll()
-    }
-
-    override fun getAllToString(): String {
-        return getAllSessions().joinToString("\n")
-    }
-
-    override fun getSessionCount(): Int {
-        return sessionDao.getSize()
-    }
-
 }

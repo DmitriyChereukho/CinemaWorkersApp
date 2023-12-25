@@ -14,13 +14,23 @@ interface FilmDao {
     fun getAll(): List<FilmEntity>
     fun get(id: Int): FilmEntity?
     fun getSize(): Int
+    fun containsValue(title: String): Boolean
 }
 
 class RuntimeFilmDao : FilmDao {
     private val films =
-        Json.decodeFromString<MutableMap<Int, FilmEntity>>(File("src/main/resources/filmsJson.json").readText())
+        try {
+            Json.decodeFromString<MutableMap<Int, FilmEntity>>(File("src/main/resources/filmsJson.json").readText())
+        } catch (e: Exception) {
+            mutableMapOf()
+        }
 
-    private var counter = films.keys.max() + 1
+    private var counter = if (films.isNotEmpty()) {
+        films.keys.max() + 1
+    } else {
+        0
+    }
+
     override fun add(title: String) {
         val film = FilmEntity(title, counter)
         films[counter] = film
@@ -48,6 +58,15 @@ class RuntimeFilmDao : FilmDao {
 
     override fun getSize(): Int {
         return films.size
+    }
+
+    override fun containsValue(title: String): Boolean {
+        films.forEach { (_, value) ->
+            if (value.title == title) {
+                return true
+            }
+        }
+        return false
     }
 
 }

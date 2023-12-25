@@ -2,15 +2,16 @@ package domain.entity
 
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
+import kotlinx.datetime.LocalDateTime
 
 @Serializable
 data class SessionEntity(
     val filmEntity: FilmEntity,
-    val time: Int,
+    @Contextual val dateTime: LocalDateTime,
     @Contextual val cinemaHall: CinemaHall,
     val id: Int
 ) {
     override fun toString(): String {
-        return " - Фильм: $filmEntity Время сеанса: $time id: $id"
+        return " - Фильм: ${filmEntity.title} Время сеанса: ${dateTime.date} ${dateTime.time} id: $id"
     }
 }

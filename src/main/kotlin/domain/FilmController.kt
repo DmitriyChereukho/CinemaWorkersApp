@@ -1,7 +1,6 @@
 package domain
 
 import data.FilmDao
-import domain.entity.FilmEntity
 
 interface FilmController {
     fun addFilm(title: String): String
@@ -15,13 +14,19 @@ interface FilmController {
 
 class FilmControllerImpl(private val filmDao: FilmDao) : FilmController {
     override fun addFilm(title: String): String {
+        if(filmDao.containsValue(title)){
+            return "Фильм с таким названием уже есть в прокате"
+        }
         filmDao.add(title)
-        return "film added"
+        return "Фильм добавлен в прокат"
     }
 
     override fun removeFilm(title: String): String {
+        if(!filmDao.containsValue(title)){
+            return "Фильма с таким названием нет в прокате"
+        }
         filmDao.remove(title)
-        return "film removed"
+        return "Фильм убран из проката"
     }
 
     override fun getFilmCount(): Int {
