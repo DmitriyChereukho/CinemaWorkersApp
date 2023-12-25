@@ -1,7 +1,10 @@
 package domain.entity
 
+import kotlinx.serialization.Serializable
+
 const val ROWS = 5
 const val COLS = 10
+
 
 class CinemaHall {
     var availableSeatsNum: Int = ROWS * COLS

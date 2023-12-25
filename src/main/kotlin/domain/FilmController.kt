@@ -8,7 +8,7 @@ interface FilmController {
 
     fun removeFilm(title: String): String
 
-    fun getAll(): List<FilmEntity>
+    fun getFilmCount(): Int
 
     fun getAllToString(): String
 }
@@ -24,12 +24,12 @@ class FilmControllerImpl(private val filmDao: FilmDao) : FilmController {
         return "film removed"
     }
 
-    override fun getAll(): List<FilmEntity> {
-        return filmDao.getAll()
+    override fun getFilmCount(): Int {
+        return filmDao.getSize()
     }
 
     override fun getAllToString(): String {
-        return getAll().joinToString("\n")
+        return filmDao.getAll().joinToString("\n")
     }
 
 }

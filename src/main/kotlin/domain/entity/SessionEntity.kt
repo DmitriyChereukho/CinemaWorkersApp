@@ -1,9 +1,13 @@
 package domain.entity
 
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class SessionEntity(
     val filmEntity: FilmEntity,
     val time: Int,
-    val cinemaHall: CinemaHall,
+    @Contextual val cinemaHall: CinemaHall,
     val id: Int
 ) {
     override fun toString(): String {

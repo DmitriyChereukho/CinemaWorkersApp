@@ -8,9 +8,14 @@ import domain.FilmController
 import domain.FilmControllerImpl
 import domain.SessionController
 import domain.SessionControllerImpl
+import presentation.Reader
+import presentation.ReaderImpl
 
 
 object DI {
+    val reader: Reader
+        get() = ReaderImpl()
+
     private val filmDao: FilmDao by lazy {
         RuntimeFilmDao()
     }

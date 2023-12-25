@@ -13,8 +13,7 @@ interface FilmDao {
     fun remove(title: String)
     fun getAll(): List<FilmEntity>
     fun get(id: Int): FilmEntity?
-    fun update(vararg listFilms: FilmEntity)
-    fun updateJson()
+    fun getSize(): Int
 }
 
 class RuntimeFilmDao : FilmDao {
@@ -42,15 +41,13 @@ class RuntimeFilmDao : FilmDao {
         return films[id]
     }
 
-    override fun update(vararg listFilms: FilmEntity) {
-        listFilms.forEach { film ->
-            films[film.id] = film
-        }
-    }
-
-    override fun updateJson() {
+    private fun updateJson() {
         val file = File("src/main/resources/filmsJson.json")
         file.writeText(Json.encodeToString(films))
+    }
+
+    override fun getSize(): Int {
+        return films.size
     }
 
 }

@@ -18,6 +18,8 @@ interface SessionController {
     fun getCinemaHallInfo(sessionId: Int): String
 
     fun getAllToString(): String
+
+    fun getSessionCount(): Int
 }
 
 class SessionControllerImpl(private val sessionDao: SessionDao, private val filmDao: FilmDao) : SessionController {
@@ -69,4 +71,9 @@ class SessionControllerImpl(private val sessionDao: SessionDao, private val film
     override fun getAllToString(): String {
         return getAllSessions().joinToString("\n")
     }
+
+    override fun getSessionCount(): Int {
+        return sessionDao.getSize()
+    }
+
 }

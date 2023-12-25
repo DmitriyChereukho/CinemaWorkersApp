@@ -11,7 +11,7 @@ fun main() {
         println("5. Отметить занятое место на ближайшем сеансе")
         println("6. Выход")
 
-        val choice0 = readlnOrNull()?.toInt()
+        val choice0 = DI.reader.readNatural(6)
         when (choice0) {
             1 -> {
                 while (true) {
@@ -19,7 +19,7 @@ fun main() {
                     println("1. Добавить фильм")
                     println("2. Удалить фильм")
                     println("3. Назад")
-                    val choice1 = readlnOrNull()?.toInt()
+                    val choice1 = DI.reader.readNatural(3)
                     when (choice1) {
                         1 -> {
                             println("Введите название фильма:")
@@ -44,14 +44,14 @@ fun main() {
                     println("1. Добавить сеанс")
                     println("2. Удалить сеанс")
                     println("3. Назад")
-                    val choice2 = readlnOrNull()?.toInt()
+                    val choice2 = DI.reader.readNatural(3)
                     when (choice2) {
                         1 -> {
                             println(DI.filmController.getAllToString())
                             println("Выберите фильм:")
-                            val filmId = readln().toInt()
+                            val filmId = DI.reader.readNatural(DI.filmController.getFilmCount())
                             println("Выберите время:")
-                            val time = readln().toInt()
+                            val time = DI.reader.readNatural(DI.filmController.getFilmCount())
                             DI.sessionController.addSession(filmId, time)
                         }
 
@@ -109,7 +109,8 @@ fun main() {
                 val seatNumber = readln().toInt()
                 DI.sessionController.takeSeat(sessionId, rowNumber, seatNumber)
             }
-            6 ->{
+
+            6 -> {
                 break
             }
         }
