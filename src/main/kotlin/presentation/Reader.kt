@@ -1,6 +1,5 @@
 package presentation
 
-import di.DI
 import kotlinx.datetime.LocalDateTime
 
 interface Reader {
@@ -8,7 +7,7 @@ interface Reader {
 
     fun readDate(): LocalDateTime
 
-    fun readFilmTitle(): String
+    fun readNotNullString(): String
 }
 
 class ReaderImpl : Reader {
@@ -55,7 +54,7 @@ class ReaderImpl : Reader {
     }
 
     override fun readDate(): LocalDateTime {
-        var dateTime: LocalDateTime? = null
+        var dateTime: LocalDateTime?
         while (true) {
             try {
                 dateTime = parseDate(readlnOrNull())
@@ -68,7 +67,7 @@ class ReaderImpl : Reader {
 
     }
 
-    override fun readFilmTitle(): String {
+    override fun readNotNullString(): String {
         while (true) {
             val input = readlnOrNull()
             if (input == null) {

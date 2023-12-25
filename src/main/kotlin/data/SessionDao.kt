@@ -16,6 +16,7 @@ interface SessionDao {
     fun get(id: Int): SessionEntity?
     fun getSize(): Int
     fun containsValue(id: Int): Boolean
+    fun removeAllTitles(title: String)
 }
 
 class RuntimeSessionDao : SessionDao {
@@ -62,6 +63,10 @@ class RuntimeSessionDao : SessionDao {
             }
         }
         return false
+    }
+
+    override fun removeAllTitles(title: String) {
+        sessions.entries.removeIf { it.value.filmEntity.title == title }
     }
 
     private fun updateJson() {

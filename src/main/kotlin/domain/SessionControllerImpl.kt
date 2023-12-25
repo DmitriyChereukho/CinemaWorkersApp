@@ -23,6 +23,9 @@ class SessionControllerImpl(private val sessionDao: SessionDao, private val film
 
     override fun sellTicket(sessionId: Int, rowNumber: Int, seatNumber: Int): String {
         val session = sessionDao.get(sessionId) ?: return "В расписании нет сеанса с таким id"
+        if (session.cinemaHall.seatsInHall[rowNumber - 1][seatNumber - 1].seatState != 0) {
+            return "Билет на это место уже куплен"
+        }
         if (session.cinemaHall.availableSeatsNum == 0) {
             return "Все места на сеансе куплены"
         }
@@ -33,10 +36,10 @@ class SessionControllerImpl(private val sessionDao: SessionDao, private val film
 
     override fun returnTicket(sessionId: Int, rowNumber: Int, seatNumber: Int): String {
         val session = sessionDao.get(sessionId) ?: return "В расписании нет сеанса с таким id"
-        if (session.cinemaHall.seatsInHall[rowNumber][seatNumber].seatNumber == 1) {
+        if (session.cinemaHall.seatsInHall[rowNumber - 1][seatNumber - 1].seatState == 0) {
             return "Билет на это место не куплен"
         }
-        if (session.cinemaHall.seatsInHall[rowNumber][seatNumber].seatNumber == 2) {
+        if (session.cinemaHall.seatsInHall[rowNumber - 1][seatNumber - 1].seatState == 2) {
             return "Место по билету уже занято"
         }
         session.cinemaHall.releaseSeat(rowNumber, seatNumber)
@@ -45,10 +48,10 @@ class SessionControllerImpl(private val sessionDao: SessionDao, private val film
 
     override fun takeSeat(sessionId: Int, rowNumber: Int, seatNumber: Int): String {
         val session = sessionDao.get(sessionId) ?: return "В расписании нет сеанса с таким id"
-        if (session.cinemaHall.seatsInHall[rowNumber][seatNumber].seatNumber == 2) {
+        if (session.cinemaHall.seatsInHall[rowNumber - 1][seatNumber - 1].seatState == 2) {
             return "Место уже занято"
         }
-        if (session.cinemaHall.seatsInHall[rowNumber][seatNumber].seatNumber == 0) {
+        if (session.cinemaHall.seatsInHall[rowNumber - 1][seatNumber - 1].seatState == 0) {
             return "Билет на это место не куплен"
         }
         session.cinemaHall.takeSeat(rowNumber, seatNumber)

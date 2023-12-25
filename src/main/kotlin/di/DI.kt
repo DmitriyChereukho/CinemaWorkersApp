@@ -1,20 +1,29 @@
 package di
 
-import data.FilmDao
-import data.RuntimeFilmDao
-import data.RuntimeSessionDao
-import data.SessionDao
-import domain.FilmController
-import domain.FilmControllerImpl
-import domain.SessionController
-import domain.SessionControllerImpl
-import presentation.Reader
-import presentation.ReaderImpl
+import data.*
+import domain.*
+import presentation.*
 
 
 object DI {
     val reader: Reader
         get() = ReaderImpl()
+
+    val filmMenu: FilmMenu
+        get() = FilmMenuImpl()
+
+    val ticketMenu: TicketMenu
+        get() = TicketMenuImpl()
+
+    val sessionMenu: SessionMenu
+        get() = SessionMenuImpl()
+
+    val loginMenu: LoginMenu
+        get() = LoginMenuImpl()
+
+    private val loginDao: LoginDao by lazy {
+        RuntimeLoginDao()
+    }
 
     private val filmDao: FilmDao by lazy {
         RuntimeFilmDao()
@@ -24,8 +33,11 @@ object DI {
         RuntimeSessionDao()
     }
 
+    val loginController: LoginController
+        get() = LoginControllerImpl(loginDao = loginDao)
+
     val filmController: FilmController
-        get() = FilmControllerImpl(filmDao = filmDao)
+        get() = FilmControllerImpl(filmDao = filmDao, sessionDao = sessionDao)
 
     val sessionController: SessionController
         get() = SessionControllerImpl(sessionDao = sessionDao, filmDao = filmDao)

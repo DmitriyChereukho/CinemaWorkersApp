@@ -1,6 +1,7 @@
 package domain
 
 import data.FilmDao
+import data.SessionDao
 
 interface FilmController {
     fun addFilm(title: String): String
@@ -12,9 +13,9 @@ interface FilmController {
     fun getAllToString(): String
 }
 
-class FilmControllerImpl(private val filmDao: FilmDao) : FilmController {
+class FilmControllerImpl(private val filmDao: FilmDao, private val sessionDao: SessionDao) : FilmController {
     override fun addFilm(title: String): String {
-        if(filmDao.containsValue(title)){
+        if (filmDao.containsValue(title)) {
             return "Фильм с таким названием уже есть в прокате"
         }
         filmDao.add(title)
@@ -22,10 +23,11 @@ class FilmControllerImpl(private val filmDao: FilmDao) : FilmController {
     }
 
     override fun removeFilm(title: String): String {
-        if(!filmDao.containsValue(title)){
+        if (!filmDao.containsValue(title)) {
             return "Фильма с таким названием нет в прокате"
         }
         filmDao.remove(title)
+        sessionDao.removeAllTitles(title)
         return "Фильм убран из проката"
     }
 
