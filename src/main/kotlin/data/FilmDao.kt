@@ -57,7 +57,7 @@ class RuntimeFilmDao : FilmDao {
     }
 
     override fun getSize(): Int {
-        return films.size
+        return counter - 1
     }
 
     override fun containsValue(title: String): Boolean {

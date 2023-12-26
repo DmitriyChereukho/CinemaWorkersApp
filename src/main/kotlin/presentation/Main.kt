@@ -45,7 +45,7 @@ fun main() {
         println("6. Посмотреть свободные и проданные места на сеансе")
         println("7. Выход")
 
-        when (DI.reader.readNatural(1, 6)) {
+        when (DI.reader.readNatural(1, 7)) {
             1 -> {
                 DI.filmMenu.processMenu()
             }

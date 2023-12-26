@@ -53,7 +53,7 @@ class RuntimeSessionDao : SessionDao {
     }
 
     override fun getSize(): Int {
-        return sessions.size
+        return counter - 1
     }
 
     override fun containsValue(id: Int): Boolean {
