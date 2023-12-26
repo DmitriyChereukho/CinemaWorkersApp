@@ -5,7 +5,7 @@ import di.DI
 interface SessionMenu {
     fun processMenu()
 
-    fun readSessionId(): Int
+    fun readSessionId(): Int?
 }
 
 class SessionMenuImpl : SessionMenu {
@@ -45,11 +45,14 @@ class SessionMenuImpl : SessionMenu {
         }
     }
 
-    override fun readSessionId(): Int {
+    override fun readSessionId(): Int? {
         println("Текущее расписание:")
         println(DI.sessionController.getAllToString())
         println("Выберите сеанс по id:")
         val sessionId = DI.reader.readNatural(0, DI.sessionController.getSessionCount())
+        if (!DI.sessionController.sessionExist(sessionId)) {
+            return null
+        }
         println(DI.sessionController.getCinemaHallInfo(sessionId))
         println("0 - место не куплено")
         println("1 - место куплено")

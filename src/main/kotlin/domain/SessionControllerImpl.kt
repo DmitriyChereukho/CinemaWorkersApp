@@ -58,6 +58,10 @@ class SessionControllerImpl(private val sessionDao: SessionDao, private val film
         return "Занятое место зафиксировано"
     }
 
+    override fun sessionExist(sessionId: Int): Boolean {
+        return sessionDao.get(sessionId) != null
+    }
+
     override fun getCinemaHallInfo(sessionId: Int): String {
         return sessionDao.get(sessionId)?.cinemaHall.toString()
     }

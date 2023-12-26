@@ -13,6 +13,8 @@ interface SessionController {
 
     fun takeSeat(sessionId: Int, rowNumber: Int, seatNumber: Int): String
 
+    fun sessionExist(sessionId: Int): Boolean
+
     fun getCinemaHallInfo(sessionId: Int): String
 
     fun getAllToString(): String

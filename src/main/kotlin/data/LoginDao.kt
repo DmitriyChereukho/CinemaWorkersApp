@@ -11,7 +11,7 @@ interface LoginDao {
 
     fun containsLogin(login: String): Boolean
 
-    fun check(login: String, password: String) : Boolean
+    fun check(login: String, password: String): Boolean
 }
 
 class RuntimeLoginDao : LoginDao {

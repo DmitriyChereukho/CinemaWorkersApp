@@ -59,7 +59,7 @@ fun main() {
                     println("В текущем расписании нет сеансов")
                     continue
                 }
-                val sessionId = DI.sessionMenu.readSessionId()
+                val sessionId = DI.sessionMenu.readSessionId() ?: continue
                 val seatPair = DI.ticketMenu.readSeat()
                 println(DI.sessionController.sellTicket(sessionId, seatPair.first, seatPair.second))
             }
@@ -69,7 +69,7 @@ fun main() {
                     println("В текущем расписании нет сеансов")
                     continue
                 }
-                val sessionId = DI.sessionMenu.readSessionId()
+                val sessionId = DI.sessionMenu.readSessionId() ?: continue
                 val seatPair = DI.ticketMenu.readSeat()
                 println(DI.sessionController.returnTicket(sessionId, seatPair.first, seatPair.second))
             }
@@ -79,7 +79,7 @@ fun main() {
                     println("В текущем расписании нет сеансов")
                     continue
                 }
-                val sessionId = DI.sessionMenu.readSessionId()
+                val sessionId = DI.sessionMenu.readSessionId() ?: continue
                 val seatPair = DI.ticketMenu.readSeat()
                 println(DI.sessionController.takeSeat(sessionId, seatPair.first, seatPair.second))
             }
